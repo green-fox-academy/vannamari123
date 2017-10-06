@@ -12,72 +12,74 @@
 int main()
 {
     int amount_of_money = 168;
-    int drb, maradek;
-    drb=amount_of_money/20000;
-    if(drb!=0){
-        printf("%d - 20000Ft\n", drb);
+    int bancnotes = 0;
+    int remainder = 0;
+    bancnotes=amount_of_money/20000;
+    
+    if(bancnotes!=0){
+        printf("%d - 20000Ft\n", bancnotes);
     }
     
-    maradek=amount_of_money%20000;
-    drb=maradek/10000;
-    if (drb!=0) {
-        printf("%d - 10000Ft\n", drb);
+    remainder=amount_of_money%20000;
+    bancnotes=remainder/10000;
+    if (bancnotes!=0) {
+        printf("%d - 10000Ft\n", bancnotes);
     }
     
-    maradek=maradek%10000;
-    drb=maradek/2000;
-    if (drb!=0) {
-        printf("%d - 2000Ft\n", drb);
+    remainder=remainder%10000;
+    bancnotes=remainder/2000;
+    if (bancnotes!=0) {
+        printf("%d - 2000Ft\n", bancnotes);
     }
     
-    maradek=maradek%2000;
-    drb=maradek/1000;
-    if (drb!=0) {
-        printf("%d - 1000Ft\n", drb);
+    remainder=remainder%2000;
+    bancnotes=remainder/1000;
+    if (bancnotes!=0) {
+        printf("%d - 1000Ft\n", bancnotes);
     }
     
-    maradek=maradek%1000;
-    drb=maradek/500;
-    if (drb!=0) {
-        printf("%d - 500Ft\n", drb);
+    remainder=remainder%1000;
+    bancnotes=remainder/500;
+    if (bancnotes!=0) {
+        printf("%d - 500Ft\n", bancnotes);
     }
     
-    maradek=maradek%500;
-    drb=maradek/200;
-    if (drb!=0) {
-        printf("%d - 200Ft\n", drb);
+    remainder=remainder%500;
+    bancnotes=remainder/200;
+    if (bancnotes!=0) {
+        printf("%d - 200Ft\n", bancnotes);
     }
     
-    maradek=maradek%200;
-    drb=maradek/100;
-    if (drb!=0) {
-        printf("%d - 100Ft\n", drb);
+    remainder=remainder%200;
+    bancnotes=remainder/100;
+    if (bancnotes!=0) {
+        printf("%d - 100Ft\n", bancnotes);
     }
     
-    maradek=maradek%100;
-    drb=maradek/50;
-    if (drb!=0) {
-        printf("%d - 50Ft\n", drb);
+    remainder=remainder%100;
+    bancnotes=remainder/50;
+    if (bancnotes!=0) {
+        printf("%d - 50Ft\n", bancnotes);
     }
     
     
-    maradek=maradek%50;
-    drb=maradek/20;
-    if (drb!=0) {
-        printf("%d - 20Ft\n", drb);
+    remainder=remainder%50;
+    bancnotes=remainder/20;
+    if (bancnotes!=0) {
+        printf("%d - 20Ft\n", bancnotes);
     }
     
-    maradek=maradek%20;
-    drb=maradek/10;
-    if (drb!=0) {
-        printf("%d - 10Ft\n", drb);
+    remainder=remainder%20;
+    bancnotes=remainder/10;
+    if (bancnotes!=0) {
+        printf("%d - 10Ft\n", bancnotes);
     }
     
-    maradek=maradek%10;
-    drb=maradek/5;
+    remainder=remainder%10;
+    bancnotes=remainder/5;
     
-    maradek=maradek%5;
-    switch(maradek){
+    remainder=remainder%5;
+    switch(remainder){
         case 1:
             printf("Rounding: down 1 Ft \n");
             break;
@@ -85,17 +87,17 @@ int main()
             printf("Ronding: down 2 Ft \n");
             break;
         case 3:
-            drb++;
+            bancnotes++;
             printf("Rounding: up 3 Ft \n");
             break;
         case 4:
-            drb++;
+            bancnotes++;
             printf("Rounding: up 4 Ft \n");
             break;
     }
     
-    if (drb!=0) {
-        printf("%d - 5Ft\n", drb);
+    if (bancnotes!=0) {
+        printf("%d - 5Ft\n", bancnotes);
     }
     
     return 0;

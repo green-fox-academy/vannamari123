@@ -12,20 +12,16 @@ int main()
                 printf("FizzBuzz\n");
                 break;
             case 3:
-                printf("Fizz \n");
-                break;
             case 6:
-                printf("Fizz \n");
-                break;
-            case 9:
-                printf("Fizz \n");
+	    case 9:
+	    case 12:
+		printf("Fizz \n");
                 break;
             case 5:
+	    case 10:
                 printf("Buzz \n");
                 break;
-            case 10:
-                printf("Buzz \n");
-                break;
+
             default:
                 printf("%d \n", num);
                 break;

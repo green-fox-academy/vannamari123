@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "variables.h"
@@ -11,12 +12,11 @@ void printer();
 
 int main()
 {
-    printer();
+    printer(NR1, NR2, NR3);
+    printer(34, 45, 65);
     return 0;
 }
 
-void printer(){
-    printf ("Name: %s \nFamily name: %s \n" , NAME, FAMILY_NAME);
-    printf ("Occupation: %s \n", OCCUPATION);
-    printf ("Year of birth: %d \n", YEAR_OF_BIRTH);
+void printer(int a, int b, int c){
+    printf ("%d %d %d\n", a, b, c);
 }

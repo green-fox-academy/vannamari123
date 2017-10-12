@@ -1,41 +1,50 @@
 #include <stdio.h>
 #include <string.h>
 
-
-//int is_anagram( char str1[] , char str2[]);
-
-int main()
-{
-//    is_anagram( "odg" , "fog");
-    char str1[] = "dof";
-    char str2[] = "dxxxxx";
+int main (void) {
+    char str1[] = "god";
+    char str2[] = "dog";
     
-//    if (strlen(str1) == strlen(str2))
-//    {
-        //counts the nr of same letters in str1
-        int arr1[256] = {0};
-        for (int i = 0; i < strlen(str1); i++)
+    char temp;
+    int n  = strlen(str1);
+    int n1 = strlen(str2);
+    
+    if( n != n1)
+    {
+        printf("Not anagrams! \n");
+        return 0;
+    }
+    
+    for (int i = 0; i < n-1; i++)
+    {
+        for (int j = i+1; j < n; j++)
         {
-            arr1[str1[i]]++;
-            printf("%c - %d\n", str1[i], arr1[str1[i]]);
-            
-            int arr2[256] = {0};
-            for (int j = 0; j < strlen(str2); j++)
+            if (str1[i] > str1[j])
             {
-                arr2[str2[j]]++;
+                temp  = str1[i];
+                str1[i] = str1[j];
+                str1[j] = temp;
             }
-        
+            
+            if (str2[i] > str2[j])
+            {
+                temp  = str2[i];
+                str2[i] = str2[j];
+                str2[j] = temp;
+            }
         }
- 
-        //counts the nr of same letters in str2
-        int arr2[256] = {0};
-        for (int i = 0; i < strlen(str2); i++)
-        {
-            arr2[str2[i]]++;
-        }
+    }
     
+    
+    for(int i = 0; i<n; i++)
+    {
+        if(str1[i] != str2[i])
+        {
+            printf("Not anagrams! \n");
+            return 0;
+        }
+    }
+    
+    printf("Anagrams! \n");
     return 0;
 }
-
-
-

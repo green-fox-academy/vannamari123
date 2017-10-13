@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 int main()
 {
+    srand(time(NULL));
     int r = 1 + rand() % 99;
     int number = 0;
 

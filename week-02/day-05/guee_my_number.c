@@ -24,22 +24,29 @@
  */
 
 
-int main()
-{
-    int r = 1 - rand() % 99;
-    int number = 0;
+ int main()
+ {
+     int r = 1 - rand() % 99;
+     int number = 0;
 
-    printf("I've the number between 1-100. Guess my number! You have 5 lives.\n");
-    scanf("%d", &number);
+     printf("I've the number between 1-100. Guess my number! You have 5 lives.\n");
+     scanf("%d", &number);
 
-    for (int i = 5 ; i > 0; i--)
-    {
-        if (number == r)
-        {
-            printf("Congratulations! You won!");
-        }
-    }
+     for (int i = 5 ; i > 0; i--)
+     {
+         if (number == r)
+         {
+             printf("Congratulations! You won!");
+         } else if (number > r)
+         {
+             printf("Too high. You have %d lives left.", i);
+         } else
+         {
+             printf("Too low. You have %d lives left.", i);
+         }
+         printf("You lost.");
+     }
 
-    return 0;
+     return 0;
 
-}
+ }

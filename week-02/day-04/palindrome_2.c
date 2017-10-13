@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 
+
 int main()
 {
     char str[100];
@@ -14,15 +15,26 @@ int main()
 
     int n = strlen(str);
 
-    for (int i = 1; i < n; i++)
+    for (int length = 3; length < n; length++)
     {
-        if(str[i-1] == str[i+1])
+        for(int i = 1; i < n-1; i++)
         {
-            printf("%c%c%c\n", str[i-1], str[i], str[i+1]);
-
+            if (str[i-1] == str[i+1])
+            {
+                printf("%c%c%c\n", str[i-1], str[i], str[i+1]);
+            } else {
+                length++;
+            }
         }
-
+        printf("something\n");
     }
+
+
+
+
+
+
+
 
     return 0;
 }

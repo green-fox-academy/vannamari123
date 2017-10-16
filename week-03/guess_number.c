@@ -38,6 +38,7 @@ int main()
                 printf("Too big, You have %d, lives left\n", x - 3 - count);
             else
                 printf("Too low, You have %d, lives left\n", x - 3 - count);
+                return 0;
         }
 
     }

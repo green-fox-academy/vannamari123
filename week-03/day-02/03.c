@@ -4,7 +4,7 @@
 
 int main()
 {
-	int a = 54325;
+    int a = 54325;
     char buffer[20];
 
     //TODO: make an integer to string conversion with itoa(), first in binary, then decimal format
@@ -14,9 +14,8 @@ int main()
     printf ("Binary of buffer: %s \n", buffer);
 
 
-    strcpy(buffer, "54325");
-    a = atoi(buffer);
-    printf("String value = %s, Int value = %d\n", buffer, a);
+    itoa(a, buffer, 10);
+    printf ("Decimal of buffer: %s \n", buffer);
 
     return 0;
 }

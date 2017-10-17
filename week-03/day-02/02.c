@@ -8,7 +8,7 @@ int main()
 	  double x = 1.2;
     double  result = x + 1;
 
-    printf ("%.0f", result);
+    printf ("%.0f\n", result);
 
     return 0;
 }

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//void transform (char str[], int original_base, int new_base);
+void transform (char str[], int original_base, int new_base);
 
 //TODO: write a program, which transforms a number from a number system to another.
 //use the stdlib.h functions, and take care of error handling (see the reference)
@@ -18,7 +18,14 @@ int main()
         printf("Give me a number to transform it in an other system: ");
         scanf("%s", str);
         printf("Give me the original base: ");
-        scanf("%d", &original_base);
+
+        while (original_base < str)
+        {
+            scanf("%d", &original_base);
+            printf("Number can not be interpreted in this number system. Add another number.\n");
+            break;
+        }
+
         if(original_base > 36 || original_base < 1)
         {
             printf("Base must be between 1 and 36.Try again!\n");
@@ -38,9 +45,8 @@ int main()
     return(0);
 }
 
-/*void transform (char* str, int original_base, int new_base)
+void transform (char* str, int original_base, int new_base)
 {
 
 
-
-}*/
+}

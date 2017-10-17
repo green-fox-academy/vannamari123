@@ -10,6 +10,10 @@ int main()
     //TODO: make an integer to string conversion with itoa(), first in binary, then decimal format
     // Store the string in buffer
 
+    itoa(a, buffer, 2);
+    printf ("Binary of buffer: %s \n", buffer);
+
+
     strcpy(buffer, "54325");
     a = atoi(buffer);
     printf("String value = %s, Int value = %d\n", buffer, a);

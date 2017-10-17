@@ -11,10 +11,8 @@ main()
 		result = f / (float) i;
 		printf("%.3f\n", result );
 
-
-
     //QUESTION: do you need explicit conversion?
-    // No. "result = i / f" works fine
+		//No, works without casting.
 
     return 0;
 }

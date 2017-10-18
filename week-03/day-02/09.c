@@ -22,7 +22,17 @@ int main()
     return(0);
 }
 
+
 void binary_adder (char *bin_op_1, char *bin_op_2)
 {
-  
+
+    long num1 = strtol(bin_op_1, NULL, 2);
+    long num2 = strtol(bin_op_2, NULL, 2);
+
+    long i = num1 + num2;
+
+    char buffer[20];
+    i = atoi(buffer);
+    itoa(i, buffer, 2);
+    printf("The binary value is %s.\n", buffer);
 }

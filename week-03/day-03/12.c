@@ -6,12 +6,17 @@
 int main ()
 {
     char string[55] ="This is a string for testing";
-    char *p;
     const char ch = 'i';
 
-    p = strchr(string, ch);
-    printf("%s", p);
+    printf("Positions of i in string are:\n");
 
+    for (int i = 0; i < strlen(string); i++)
+    {
+            if (string[i] == ch)
+            {
+                printf("%d\n", i+1);
+            }
+    }
 
     return 0;
 }

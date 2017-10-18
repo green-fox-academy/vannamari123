@@ -15,12 +15,13 @@ int main ()
     int distance = 0;
 
     first = strchr(str, ch);
-    printf("%d\n", first - str);
+    printf("Place of first %c: %d\n", ch, first - str);
 
+    last = strrchr(str, ch);
+    printf("Place of last %c: %d\n", ch, last - str);
 
-
-    distance = first - last;
-    printf ("The distance is: %d", distance);
+    distance = last - first -1;
+    printf ("The distance is: %d\n", distance);
 
     return 0;
 }

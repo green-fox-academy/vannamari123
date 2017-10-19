@@ -1,40 +1,82 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
+#include "Functions.h"
+#include <curses.h>
+
 
 void welcome_scr();
+void clear_scr();
+
+
 
 int main()
 {
-    welcome_scr();
+  //  char command[2];
+
+
+  //  welcome_scr();
+ //   gets(command);
+
+    float a = 10;
+    float b = 3;
+    char command[6] = "log";
+
+
+   if (strcmp(command, "+") == 0)
+    {
+        float c = summation(a, b);
+        printf("%.2f\n", c);
+    }
+
+    if (strcmp(command, "-") == 0)
+    {
+        printf("%.2f\n", subtraction(a, b));
+    }
+
+    if (strcmp(command, "*") == 0)
+    {
+        printf("%.2f\n", multiplication(a,b));
+    }
+
+    if (strcmp(command, "/") == 0)
+    {
+        printf("%.2f\n", division(a,b));
+    }
+
+    if (strcmp(command, "%") == 0)
+    {
+        printf("%d\n", div_rem(a, b));
+    }
+
+    if (strcmp(command, "^") == 0)
+    {
+        printf("%.2f\n", squaring(a));
+    }
+
+    if (strcmp(command, "<") == 0)
+    {
+        printf("%.2f\n", sq_root(a));
+    }
+
+    if (strcmp(command, "log") == 0)
+    {
+        printf("%.2f\n", logarithm(a));
+    }
+
 
     return 0;
 }
 
 
-void welcome_scr()
+
+
+
+
+
+void clear_scr()
 {
-    printf("CLI Calculator\n");
-    printf("====================================\n");
-    printf("usage: [number] [operation] [number]\n");
-    printf("Commands:\n");
-    printf("+\t summation\n");
-    printf("-\t subtraction\n");
-    printf("*\t multiplication\n");
-    printf("/\t division\n");
-    printf("\t division with remainder\n");
-    printf("^\t squaring\n");
-    printf("<\t square root\n");
-    printf("log\t logarithm\n");
-    printf("binto\t binary to hex or dec\n");
-    printf("hexto\t hexadecimal to bin or hex\n");
-    printf("decto\t decimal to bin or hex\n");
-    printf("====================================\n");
-    printf("exit\t exit from the program\n");
-    printf("clear\t clear the screen\n");
-    printf("help\t print usage\n");
-    printf("====================================\n");
-    printf("Hit enter to start!\n");
-    printf("====================================\n");
+   system("@cls||clear");
 
 }

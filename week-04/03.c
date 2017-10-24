@@ -6,8 +6,7 @@
 int main() {
     int number = 1234;
     int* number_pointer = &number;
-    int new_number = 42;
-    *number_pointer = new_number;
+    *number_pointer = 42;
     number = *number_pointer;
 
     printf("%d\n", number);

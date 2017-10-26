@@ -19,8 +19,11 @@ int main() {
     house_1.area = 200;
     house_1.rooms = 4;
 
+    struct House house_2 = {"Add str 2", 50000, 30, 3};
+
 
     worth_to_buy(&house_1);
+    worth_to_buy(&house_2);
 
 
     return 0;

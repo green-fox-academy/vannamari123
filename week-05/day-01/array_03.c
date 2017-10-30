@@ -16,8 +16,9 @@
 int main(){
     char arr[8][8];
 
-//Creates empty chess table
-/*    for (int i = 0; i < 8; i++){
+
+printf("Empty chess table:\n");
+    for (int i = 0; i < 8; i++){
         for (int j = 0; j < 8; j++){
             if (i % 2 == 0 && j % 2 == 0){
                 arr[i][j] = 'X';
@@ -33,10 +34,9 @@ int main(){
 
         printf("\n");
     }
-*/
+printf("\n");
 
-//Creates starting position table
-
+printf("Starting position chess table:\n");
 for (int i = 0; i < 8; i++){
     for (int j = 0; j < 8; j++){
         if (i % 2 == 0 && j % 2 == 0){
@@ -58,6 +58,29 @@ for (int i = 0; i < 8; i++){
 
     printf("\n");
 }
+printf("\n");
 
+printf("Horse moves:\n");
+    for (int i = 0; i < 8; i++){
+        for (int j = 0; j < 8; j++){
+            if (i % 2 == 0 && j % 2 == 0){
+                arr[i][j] = 'X';
+            } else if (i % 2 != 0 && j % 2 !=0){
+                arr[i][j] = 'X';
+                arr[1][j] = 'P';
+            } else {
+                arr[i][j] = ' ';
+            }
+            arr[1][j] = arr[6][j] = 'P';
+            arr[0][0] = arr[7][7] = arr[0][7] = arr[7][0] = 'R'; //R stands for Rook
+            arr[2][2] = arr[0][6] = arr[7][1] = arr[7][6] = 'H'; //H stands for Horse
+            arr[0][2] = arr[0][5] = arr[7][2] = arr[7][5] = 'B'; //B stands for Bishop
+            arr[0][3] = arr[7][4] = 'Q'; //Q stands for Queen
+            arr[0][4] = arr[7][3] = 'K'; //K stands for King
+            printf("%c ", arr[i][j]);
+        }
+
+        printf("\n");
+    }
     return 0;
 }

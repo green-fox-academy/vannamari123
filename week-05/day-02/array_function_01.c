@@ -16,27 +16,35 @@
 
 
 #include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
 
-int sort_array (int *arr, uint len);
+int sort_array (int *arr, int *sorted, uint len);
+int finder(int *sorted, uint len, int number);
+void arr_printer(int *arr);
 
 int main()
 {
     int my_array[5] = {45, 67, 3, 12, 90};
+    int sorted[5];
 
     printf("Unsorted array:");
-    for (int i = 0; i < 5; i++)
-        printf(" %d ", my_array[i]);
-    printf("\n");
+    arr_printer(my_array);
 
-    sort_array(my_array, 5);
+    sort_array(my_array, sorted, 5);
+
+    printf("Sorted array:");
+    arr_printer(sorted);
+
+    printf("%d\n", finder(sorted, 5, 67));
 
     return 0;
 }
 
 
-int sort_array (int *arr, uint len)
+int sort_array (int *arr, int *sorted, uint len)
 {
-    int sorted[50];
+
     for (int i = 0; i < len; i++){
         sorted[i] = arr[i];
     }
@@ -50,12 +58,30 @@ int sort_array (int *arr, uint len)
             }
         }
     }
-    printf("Sorted array:");
+    return 0;
+}
 
-    for (int i = 0; i < len; i++)
-        printf("%d ", sorted[i]);
 
+int finder(int *sorted, uint len, int number){
+
+    int index = 0;
+    for (int i = 0; i < len; i++){
+        if(sorted[i] == number){
+            index = i;
+            return i + 1;
+        } else {
+            index = -1;
+        }
+    }
+
+    return index;
+}
+
+
+void arr_printer(int *arr)
+{
+    for (int i = 0; i < 5; i++)
+        printf(" %d ", arr[i]);
     printf("\n");
 
-    return 0;
 }

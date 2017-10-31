@@ -38,6 +38,19 @@ int main()
 
     printf("%d\n", finder(sorted, 5, 67));
 
+    int array_50[50];
+    srand(time(NULL));
+    for (int i = 0; i < 50; i++){
+        array_50[i] = 1 + rand() % 100;
+    }
+
+    arr_printer(array_50, 50);
+
+    sort_array(array_50, sorted, 50);
+    arr_printer(sorted, 50);
+    printf("Place: %d\n", finder(sorted, 50, 1));
+
+
     return 0;
 }
 

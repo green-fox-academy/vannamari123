@@ -19,9 +19,9 @@
 #include <time.h>
 #include <stdlib.h>
 
-int sort_array (int *arr, int *sorted, uint len);
-int finder(int *sorted, uint len, int number);
-void arr_printer(int *arr);
+int sort_array (int *arr, int *sorted, int len);
+int finder(int *sorted, int len, int number);
+void arr_printer(int *arr, int len);
 
 int main()
 {
@@ -30,14 +30,15 @@ int main()
     int sorted2[50];
 
     printf("Unsorted array:");
-    arr_printer(my_array);
+    arr_printer(my_array, 5);
 
     sort_array(my_array, sorted, 5);
 
     printf("Sorted array:");
-    arr_printer(sorted);
+    arr_printer(sorted, 5);
 
     printf("%d\n", finder(sorted, 5, 67));
+
 
     int array_50[50];
     srand(time(NULL));
@@ -52,11 +53,13 @@ int main()
     printf("Place: %d\n", finder(sorted2, 50, 1));
 
 
+
+
     return 0;
 }
 
 
-int sort_array (int *arr, int *sorted, uint len)
+int sort_array (int *arr, int *sorted, int len)
 {
 
     for (int i = 0; i < len; i++){
@@ -76,7 +79,8 @@ int sort_array (int *arr, int *sorted, uint len)
 }
 
 
-int finder(int *sorted, uint len, int number){
+int finder(int *sorted, int len, int number)
+{
 
     int index = 0;
     for (int i = 0; i < len; i++){
@@ -92,9 +96,9 @@ int finder(int *sorted, uint len, int number){
 }
 
 
-void arr_printer(int *arr)
+void arr_printer(int *arr, int len)
 {
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < len; i++)
         printf(" %d ", arr[i]);
     printf("\n");
 

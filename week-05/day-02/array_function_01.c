@@ -27,6 +27,7 @@ int main()
 {
     int my_array[5] = {45, 67, 3, 12, 90};
     int sorted[5];
+    int sorted2[50];
 
     printf("Unsorted array:");
     arr_printer(my_array);
@@ -46,9 +47,9 @@ int main()
 
     arr_printer(array_50, 50);
 
-    sort_array(array_50, sorted, 50);
-    arr_printer(sorted, 50);
-    printf("Place: %d\n", finder(sorted, 50, 1));
+    sort_array(array_50, sorted2, 50);
+    arr_printer(sorted2, 50);
+    printf("Place: %d\n", finder(sorted2, 50, 1));
 
 
     return 0;

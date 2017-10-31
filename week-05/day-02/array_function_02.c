@@ -21,9 +21,11 @@ int main()
 {
     char arr1[] = "Hello";
     char arr2[] = "good world";
+    char arr3[] = "good";
 
     printf("%d\n", replace(arr1, arr2, 8));
     printf("%d\n", replace(arr1, arr2, 4));
+    printf("%d\n", replace(arr1, arr3, 4));
     puts(arr1);
 
     return 0;
@@ -37,10 +39,11 @@ int replace(char* arg1, char* arg2, int index)
 
     if (index > len1){
         return -1;
-    } else {
+    } else if (len1 > len2){
         for (int i = 0; i < len1 + len2; i++){
             arg1[i+index] = arg2[i];
+            return 0;
         }
-        return 0;
     }
+    return 1;
 }

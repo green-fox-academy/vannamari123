@@ -11,39 +11,39 @@
  * Write code in the main function to test all scenarios and write out the result You need to check whether this works.
  */
 
-#include <stdio.h>
-#include <string.h>
+ #include <stdio.h>
+ #include <string.h>
 
-int replace(char* arg1, char* arg2, int index);
-
-
-int main()
-{
-    char arr1[] = "Hello";
-    char arr2[] = "good world";
-    char arr3[] = "good";
-
-    printf("%d\n", replace(arr1, arr2, 8));
-    printf("%d\n", replace(arr1, arr2, 4));
-    printf("%d\n", replace(arr1, arr3, 4));
-    puts(arr1);
-
-    return 0;
-}
+ int replace(char* arg1, char* arg2, int index);
 
 
-int replace(char* arg1, char* arg2, int index)
-{
-    int len1 = strlen(arg1);
-    int len2 = strlen(arg2);
+ int main()
+ {
+     char arr1[] = "Hello";
+     char arr2[] = "good world";
+     char arr3[] = "good";
 
-    if (index > len1){
-        return -1;
-    } else if (len1 > len2){
-        for (int i = 0; i < len1 + len2; i++){
-            arg1[i+index] = arg2[i];
-            return 0;
-        }
-    }
-    return 1;
-}
+     printf("When index is larger than array length: %d\n", replace(arr1, arr2, 8));
+     printf("When receiving array is shorter than inserted content: %d\n", replace(arr1, arr2, 4));
+     printf("When array is rewritten: %d\n", replace(arr1, arr3, 4));
+     puts(arr1);
+
+     return 0;
+ }
+
+
+ int replace(char* arg1, char* arg2, int index)
+ {
+     int len1 = strlen(arg1);
+     int len2 = strlen(arg2);
+
+     if (index > len1){
+         return -1;
+     } else if (len1 > len2){
+         for (int i = 0; i < len1; i++){
+             arg1[i+index] = arg2[i];
+             return 0;
+         }
+     }
+     return 1;
+ }

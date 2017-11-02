@@ -18,6 +18,7 @@ Every task should be in different function, and use pointers
 
 
 
+
 #include <stdio.h>
 #include <math.h>
 
@@ -27,14 +28,14 @@ int counter(int *arr, int N);
 int main()
 
 {
-    int my_array[10];
-    arr_filler(my_array, 10);
+    int my_array[1000];
+    arr_filler(my_array, 1000);
 
     for (int i = 0; i < sizeof(my_array)/sizeof(int); i++){
         printf("%d ", my_array[i]);
     }
 
-    printf("Count is: %d", counter(my_array, 10));
+    printf("Count is: %d", counter(my_array, 1000));
 
 
     return 0;
@@ -57,7 +58,7 @@ int counter(int *arr, int N)
     int i = 0;
 
     for (i = 0; i < N; i++){
-        if (arr[i] % 10 == 3){
+        if (arr[i] % 10 == 3 && arr[i] / 100 % 10 == 1){
             count++;
         }
     }

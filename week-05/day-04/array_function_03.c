@@ -20,7 +20,6 @@ int arr_length(char* arr, int arr_len, int str_len);
 int main()
 {
     char my_array[4][20]={"Good", "Morning", "Vietnam", "Hello"};
-
     arr_length(my_array, 4, 20);
 
     return 0;
@@ -36,7 +35,7 @@ int arr_length(char* arr, int arr_len, int str_len)
     printf("\nOutput array:");
 
     for (int i = 0; i < arr_len; i++){
-        char *p = arr + i*str_len;
+        char *p = arr + i * str_len;
         while(*p != '\0'){
             counter++;
             p++;

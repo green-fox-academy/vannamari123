@@ -17,6 +17,7 @@ int main() {
         my_vector.at(i) = rand() % 10;
         cout << my_vector[i] << " ";
     }
+
     cout << endl;
 
     cout << "Modified vector: " << endl;

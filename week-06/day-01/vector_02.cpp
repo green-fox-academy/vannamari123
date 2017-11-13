@@ -13,7 +13,7 @@ int main() {
     vector<int> num_vector(10);
 
     for (int i = 0; i < num_vector.size(); i++){
-        num_vector.at(i) = rand() % 20 + 1;
+        num_vector.at(i) = rand() % 10 + 1;
         cout << num_vector[i] << " ";
     }
 

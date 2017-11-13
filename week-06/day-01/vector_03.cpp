@@ -10,21 +10,28 @@
 using namespace std;
 
 int main() {
-    vector <int> my_vector(20);
+    int size = 20;
+    vector <int> my_vector(size);
 
     cout << "Original vector: " << endl;
-    for (int i = 0; i < my_vector.size(); ++i){
+    for (int i = 0; i < size; ++i){
         my_vector.at(i) = rand() % 10;
         cout << my_vector[i] << " ";
     }
-
     cout << endl;
 
+
+    for (int i = 0; i < size; ++i){
+        if (my_vector.at(i) % 2 == 0){
+            my_vector.erase(my_vector.begin() + i);
+            size--;
+            i--;
+        }
+    }
+
     cout << "Modified vector: " << endl;
-    for (int j = 0; j < my_vector.size(); ++j){
-        if (my_vector.at(j) % 2 == 0)
-            my_vector.at(j) = my_vector.at(j) + 1;
-        cout << my_vector[j] << " ";
+    for (int i = 0; i < my_vector.size(); i++){
+        cout << my_vector[i] << " ";
     }
 
     cout << endl;

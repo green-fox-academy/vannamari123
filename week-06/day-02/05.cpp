@@ -40,8 +40,8 @@ public:
 int main() {
 
     Circle c1(10);
-    cout << "Circumference: " << c1.get_circumference() << "units" << endl;
-    cout << "Area: " << c1.get_area() << "units^2" << endl;
+    cout << "Circumference: " << c1.get_circumference() << " units" << endl;
+    cout << "Area: " << c1.get_area() << " units^2" << endl;
 
     return 0;
 }

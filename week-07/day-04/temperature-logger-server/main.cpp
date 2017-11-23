@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <conio.h>
 
+#include "Functions.h"
 #include "SerialPortWrapper.h"
 
 using namespace std;
@@ -19,25 +20,24 @@ int main()
 
     // connection
 
-        SerialPortWrapper *serial = new SerialPortWrapper("COM3", 115200);
+    SerialPortWrapper *serial = new SerialPortWrapper("COM3", 115200);
 
     string line;
     string input;
 
-    cout << endl << "Welcom to Temperature Logger Application!" << endl << endl << endl << "To display command list press: h" << endl << "To exit press: e" << endl << endl;
-    cin >> input;
+    cout << endl << "Welcome to Temperature Logger Application!" << endl << endl << endl << "To display command list press: h" << endl << "To exit press: e" << endl << endl;
 
+    cin >> input;
     do {
         if(input == "h"){
-            cout << "==============================" << endl << "Temperature Logger Application " << endl << "==============================" << endl;
-            cout << " Commands:" << endl << "h        Show command list" << endl;
-            cout << "o        Open port" << endl << "s        Start logging / Stop logging" << endl;
-            cout << "c        Close port" << endl << "l        List after error handling" << endl;
-            cout << "e        Exit from the program" << endl;
+                start_screen();
+            /*cout << "==============================" << endl << "Temperature Logger Application " << endl << "==============================" << endl;
+            cout << " Commands:" << endl << "h    Show command list" << endl;
+            cout << "o    Open port" << endl << "s    Start logging / Stop logging" << endl;
+            cout << "c    Close port" << endl << "l   List after error handling" << endl;
+            cout << "e    Exit from the program" << endl;*/
         } else if (input == "e"){
             exit(0);
-        } else {
-            cout << "Wrong command" << endl;
         }
 
         cin >> input;
@@ -53,7 +53,7 @@ int main()
                         }
                         if (_kbhit()){
                             if (getchar() == 's')
-                                exit(0);
+                                break;
                         }
                 }
             }
@@ -68,43 +68,6 @@ int main()
     }
     while(input != "e");
 
-
-
-
-
-
-
-/*
-
-if(input == "o"){
-            serial->openPort();
-            while(1){
-                serial->readLineFromPort(&line);
-                if (line.length() > 0){
-                    cout << line << endl;
-                }
-            }
-        }
-
-
-
-
-else if (input == "e"){
-        exit(0);}
-    else {
-    cout << "Wrong command" << endl;
-    }
-
-
-    serial->openPort();
-    string line;
-        while(1){
-            serial->readLineFromPort(&line);
-            if (line.length() > 0){
-                cout << line << endl;
-            }
-        }*/
-//        serial->closePort();
 
 
 

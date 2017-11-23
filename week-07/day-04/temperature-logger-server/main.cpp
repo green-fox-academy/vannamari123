@@ -37,18 +37,25 @@ int main()
             cout << "Wrong command" << endl;
         }
 
-    cin >> input;
-        while(input != "e"){
-            if (input == "o"){
+    do {
+        cin >> input;
+        if (input == "o"){
                 serial->openPort();
-                while(1){
-                    serial->readLineFromPort(&line);
-                    if (line.length() > 0){
-                        cout << line << endl;
+                cout << "Port is open." << endl;
+                } else if (input =="s"){
+                    while(1){
+                        serial->readLineFromPort(&line);
+                        if (line.length() > 0){
+                            cout << line << endl;
+                        }
+                    }
                 }
-            }
-        } break;
-        }
+    }
+    while(input != "e");
+
+
+
+
 
 
 /*
@@ -81,7 +88,7 @@ else if (input == "e"){
                 cout << line << endl;
             }
         }*/
-        serial->closePort();
+//        serial->closePort();
 
 
 

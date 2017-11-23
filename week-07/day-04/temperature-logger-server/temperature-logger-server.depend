@@ -26,13 +26,14 @@
 	<string>
 	<vector>
 
-1511452737 source:c:\users\varga ildiko\desktop\vannamari123\week-07\day-04\temperature-logger-server\main.cpp
+1511455450 source:c:\users\varga ildiko\desktop\vannamari123\week-07\day-04\temperature-logger-server\main.cpp
 	<iostream>
 	<stdio.h>
 	<string>
 	<vector>
 	<cstdlib>
 	<conio.h>
+	"Functions.h"
 	"SerialPortWrapper.h"
 
 1511377544 c:\users\varga ildiko\desktop\vannamari123\week-07\day-04\temperature-logger-server\serialportwrapper.h
@@ -61,4 +62,10 @@
 1511377556 source:c:\users\varga ildiko\desktop\vannamari123\week-07\day-04\temperature-logger-server\serialportwrapper.cpp
 	"SerialPortWrapper.h"
 	"rs232/rs232.h"
+
+1511453802 source:c:\users\varga ildiko\desktop\vannamari123\week-07\day-04\temperature-logger-server\functions.cpp
+	<iostream>
+	"Functions.h"
+
+1511453150 c:\users\varga ildiko\desktop\vannamari123\week-07\day-04\temperature-logger-server\functions.h
 

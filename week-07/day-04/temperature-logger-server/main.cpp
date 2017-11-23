@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <cstdlib>
+#include <conio.h>
 
 #include "SerialPortWrapper.h"
 
@@ -25,6 +26,8 @@ int main()
 
     cout << endl << "Welcom to Temperature Logger Application!" << endl << endl << endl << "To display command list press: h" << endl << "To exit press: e" << endl << endl;
     cin >> input;
+
+    do {
         if(input == "h"){
             cout << "==============================" << endl << "Temperature Logger Application " << endl << "==============================" << endl;
             cout << " Commands:" << endl << "h        Show command list" << endl;
@@ -37,7 +40,6 @@ int main()
             cout << "Wrong command" << endl;
         }
 
-    do {
         cin >> input;
         if (input == "o"){
             serial->openPort();
@@ -49,14 +51,23 @@ int main()
                         if (line.length() > 0){
                             cout << line << endl;
                         }
+                        if (_kbhit()){
+                            if (getchar() == 's')
+                                exit(0);
+                        }
                 }
             }
         } else if (input == "s"){
             cout << "Port is not open. Open port to start logging." << endl;
         }
 
+        if (input == "c"){
+            serial->closePort();
+        }
+
     }
     while(input != "e");
+
 
 
 

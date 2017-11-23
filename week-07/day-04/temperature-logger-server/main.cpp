@@ -40,16 +40,21 @@ int main()
     do {
         cin >> input;
         if (input == "o"){
-                serial->openPort();
-                cout << "Port is open." << endl;
-                } else if (input =="s"){
-                    while(1){
-                        serial->readLineFromPort(&line);
+            serial->openPort();
+            cout << "Port is open." << endl;
+            cin >> input;
+            if (input =="s"){
+                while(1){
+                    serial->readLineFromPort(&line);
                         if (line.length() > 0){
                             cout << line << endl;
                         }
-                    }
                 }
+            }
+        } else if (input == "s"){
+            cout << "Port is not open. Open port to start logging." << endl;
+        }
+
     }
     while(input != "e");
 

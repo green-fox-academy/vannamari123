@@ -24,6 +24,7 @@ int main()
 
     string line;
     string command;
+    int flag;
     vector <string> input;
 
     start_screen();
@@ -39,27 +40,34 @@ int main()
         if (command == "o"){
             serial->openPort();
             cout << "Port is open." << endl;
+            flag = 1;
         }
 
         if (command =="s"){
+          if (flag == 1){
             while(1){
                 serial->readLineFromPort(&line);
                     if (line.length() > 0){
                         cout << line << endl;
                     }
-
                     if (_kbhit()){
                         if (getchar() == 's')
                             break;
                     }
                 }
+            } else {
+                cout << "First you need to open port to start logging." << endl;
             }
-  //      else if (command == "s"){
-  //          cout << "Port is not open. Open port to start logging." << endl;
+            }
 
         if (command == "c"){
             serial->closePort();
             cout << "Port is closed." << endl;
+            flag = 0;
+        }
+
+        if (command == "l"){
+
         }
 
     }

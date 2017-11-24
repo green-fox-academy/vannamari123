@@ -26,7 +26,7 @@
 	<string>
 	<vector>
 
-1511455450 source:c:\users\varga ildiko\desktop\vannamari123\week-07\day-04\temperature-logger-server\main.cpp
+1511525501 source:c:\users\varga ildiko\desktop\vannamari123\week-07\day-04\temperature-logger-server\main.cpp
 	<iostream>
 	<stdio.h>
 	<string>
@@ -63,9 +63,9 @@
 	"SerialPortWrapper.h"
 	"rs232/rs232.h"
 
-1511453802 source:c:\users\varga ildiko\desktop\vannamari123\week-07\day-04\temperature-logger-server\functions.cpp
+1511526229 source:c:\users\varga ildiko\desktop\vannamari123\week-07\day-04\temperature-logger-server\functions.cpp
 	<iostream>
 	"Functions.h"
 
-1511453150 c:\users\varga ildiko\desktop\vannamari123\week-07\day-04\temperature-logger-server\functions.h
+1511526066 c:\users\varga ildiko\desktop\vannamari123\week-07\day-04\temperature-logger-server\functions.h
 

@@ -4,11 +4,46 @@
 #include <vector>
 #include <cstdlib>
 #include <conio.h>
+#include <sstream>
+#include <iomanip>
 
 #include "Functions.h"
 #include "SerialPortWrapper.h"
 
 using namespace std;
+
+struct temperature_record {
+	long timestamp;
+	int temperature;
+};
+
+temperature_record parseString(string line) {
+	int temperature;
+
+	istringstream exampleStream(line);
+	tm parsedDateTime;
+	exampleStream >> get_time(&parsedDateTime, "%Y.%m.%d %H:%M:%S")
+			>> temperature;
+	if (exampleStream.fail()) {
+		throw "Invalid string format!";
+	}
+
+
+	if (-273 > temperature || 1000 < temperature) {
+		throw "Temperature is out of range!";
+	}
+
+	long timestamp = mktime(&parsedDateTime);
+
+	temperature_record rec;
+	rec.temperature = temperature;
+	rec.timestamp = timestamp;
+	return rec;
+}
+;
+
+
+
 
 int main()
 {
@@ -49,6 +84,7 @@ int main()
                 serial->readLineFromPort(&line);
                     if (line.length() > 0){
                         cout << line << endl;
+                        temperature_record good = parseString(line)
                     }
                     if (_kbhit()){
                         if (getchar() == 's')

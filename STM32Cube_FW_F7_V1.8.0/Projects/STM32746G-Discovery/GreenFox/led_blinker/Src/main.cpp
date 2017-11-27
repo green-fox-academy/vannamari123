@@ -96,7 +96,8 @@ int main(void)
 
   /* Infinite loop */
   while (1)
-  {
+  {   HAL_Delay(200);
+  	  BSP_LED_Toggle(LED_GREEN);
 	  //TODO:
 	  //Flash the ledwith 200 ms period time
 

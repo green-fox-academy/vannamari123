@@ -77,6 +77,25 @@ int main(void)
   /* Enable the CPU Cache */
   CPU_CACHE_Enable();
 
+  __HAL_RCC_GPIOA_CLK_ENABLE();    // we need to enable the GPIOA port's clock first
+
+  GPIO_InitTypeDef tda;            // create a config structure
+  tda.Pin = GPIO_PIN_0;            // this is about PIN 0
+  tda.Mode = GPIO_MODE_OUTPUT_PP;  // Configure as output with push-up-down enabled
+  tda.Pull = GPIO_PULLDOWN;        // the push-up-down should work as pulldown
+  tda.Speed = GPIO_SPEED_HIGH;     // we need a high-speed output
+
+  HAL_GPIO_Init(GPIOA, &tda);      // initialize the pin on GPIOA port with HAL
+
+  while (1)
+  {
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);   // setting the pin to 1
+  HAL_Delay(1000);                                      // wait a second
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET); // setting the pin to 0
+  }
+
+
+
   /* STM32F7xx HAL library initialization:
        - Configure the Flash ART accelerator on ITCM interface
        - Configure the Systick to generate an interrupt each 1 msec
@@ -88,30 +107,7 @@ int main(void)
   /* Configure the System clock to have a frequency of 216 MHz */
   SystemClock_Config();
 
-  //TODO:
-  //Initialization the push button and the led with using BSP
-  //Turn the led on to validate the initialization is occured.
-  /* Add your application code here     */
-    BSP_PB_Init(BUTTON_KEY, BUTTON_MODE_GPIO);
-    BSP_LED_Init(LED_GREEN);
-    BSP_LED_On(LED_GREEN);
-    HAL_Delay(200);
-    BSP_LED_Off(LED_GREEN);
-  /* Infinite loop */
 
-
-  while (1)
-  {
-	  if(BSP_PB_GetState(BUTTON_KEY)!=RESET){
-		  HAL_Delay(200);
-		  BSP_LED_Toggle(LED_GREEN);
-	  } else {
-		  BSP_LED_Off(LED_GREEN);
-	  }
-
-	  //TODO:
-	  //Write a simple program witch flashes(toggle) the led when the button is pressed
-  }
 }
 
 /**
@@ -181,9 +177,7 @@ static void SystemClock_Config(void)
 static void Error_Handler(void)
 {
   /* User may add here some code to deal with this error */
-  while(1)
-  {
-  }
+
 }
 
 /**

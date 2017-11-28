@@ -92,6 +92,9 @@ int main(void)
 
   __HAL_RCC_GPIOA_CLK_ENABLE();    // we need to enable the GPIOA port's clock first
   __HAL_RCC_GPIOF_CLK_ENABLE();    // enables the GPIOF port's clock`
+  __HAL_RCC_GPIOC_CLK_ENABLE();
+
+
 
     GPIO_InitTypeDef tda;            // create a config structure
     tda.Pin = GPIO_PIN_0;            // this is about PIN 0
@@ -128,6 +131,37 @@ int main(void)
     HAL_GPIO_Init(GPIOF, &tdf8);      // initialize the pin on GPIOA port with HAL
 
 
+    GPIO_InitTypeDef button;            // create a config structure
+    button.Pin = GPIO_PIN_7;            // this is about PIN 0
+    button.Mode = GPIO_MODE_INPUT;  // Configure as output with push-up-down enabled
+    button.Pull = GPIO_PULLUP;        // the push-up-down should work as pulldown
+    button.Speed = GPIO_SPEED_HIGH;     // we need a high-speed output
+
+    HAL_GPIO_Init(GPIOC, &button);      // initialize the pin on GPIOA port with HAL
+
+   while(1){
+
+	   if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_7) == 0){
+		   GPIOA->ODR = GPIOA->ODR | 1;
+		       HAL_Delay(100);
+		       GPIOA->ODR = GPIOA->ODR & 0xFFFFFFFE;
+
+		       GPIOF->ODR |= (1 << 10) ;
+		       HAL_Delay(100);
+		       GPIOF->ODR &= ~(1 << 10);
+
+		       GPIOF->ODR |= (1 << 9) ;
+		       HAL_Delay(100);
+		       GPIOF->ODR &= ~(1 << 9);
+
+		       GPIOF->ODR |= (1 << 8) ;
+		       HAL_Delay(100);
+		       GPIOF->ODR &= ~(1 << 8);
+	   }
+   }
+
+
+
 /*
   while(1){
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);   // setting the pin to 1
@@ -149,24 +183,28 @@ int main(void)
 
 */
 
+/*
   while(1){
-    GPIOA->ODR = GPIOA->ODR | 1;          // set the lowest bit to 1, leave the others as they are (this will set the lowest bit - PIN 0 - to 1)
-    HAL_Delay(1000);                      // wait a second
-    GPIOA->ODR = GPIOA->ODR & 0xFFFFFFFE; // this will set the lowest bit (PIN 0) to 0. Guess why!
+    GPIOA->ODR = GPIOA->ODR | 1;
+    HAL_Delay(100);
+    GPIOA->ODR = GPIOA->ODR & 0xFFFFFFFE;
 
-    GPIOF->ODR |= (1 << 10) ;          // set the lowest bit to 1, leave the others as they are (this will set the lowest bit - PIN 0 - to 1)
-    HAL_Delay(1000);                      // wait a second
+    GPIOF->ODR |= (1 << 10) ;
+    HAL_Delay(100);
     GPIOF->ODR &= ~(1 << 10);
 
-    GPIOF->ODR |= (1 << 9) ;          // set the lowest bit to 1, leave the others as they are (this will set the lowest bit - PIN 0 - to 1)
-    HAL_Delay(1000);                      // wait a second
+    GPIOF->ODR |= (1 << 9) ;
+    HAL_Delay(100);
     GPIOF->ODR &= ~(1 << 9);
 
-    GPIOF->ODR |= (1 << 8) ;          // set the lowest bit to 1, leave the others as they are (this will set the lowest bit - PIN 0 - to 1)
-    HAL_Delay(1000);                      // wait a second
+    GPIOF->ODR |= (1 << 8) ;
+    HAL_Delay(100);
     GPIOF->ODR &= ~(1 << 8);
 
     }
+    */
+
+
 
 
 }

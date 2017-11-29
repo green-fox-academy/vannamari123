@@ -90,6 +90,7 @@ int main(void)
   SystemClock_Config();
 
 
+
   __HAL_RCC_GPIOA_CLK_ENABLE();    // we need to enable the GPIOA port's clock first
   __HAL_RCC_GPIOF_CLK_ENABLE();    // enables the GPIOF port's clock`
   __HAL_RCC_GPIOC_CLK_ENABLE();
@@ -106,59 +107,64 @@ int main(void)
 
 
     GPIO_InitTypeDef tdf;            // create a config structure
-    tdf.Pin = GPIO_PIN_10;            // this is about PIN 10
+    tdf.Pin = GPIO_PIN_10 | GPIO_PIN_9 | GPIO_PIN_8 | GPIO_PIN_7 | GPIO_PIN_6;  // this is about PIN 10. 9, 8, 7, 6
     tdf.Mode = GPIO_MODE_OUTPUT_PP;  // Configure as output with push-up-down enabled
     tdf.Pull = GPIO_PULLDOWN;        // the push-up-down should work as pulldown
     tdf.Speed = GPIO_SPEED_HIGH;     // we need a high-speed output
 
     HAL_GPIO_Init(GPIOF, &tdf);      // initialize the pin on GPIOA port with HAL
 
-    GPIO_InitTypeDef tdf9;            // create a config structure
-    tdf9.Pin = GPIO_PIN_9;            // this is about PIN 10
-    tdf9.Mode = GPIO_MODE_OUTPUT_PP;  // Configure as output with push-up-down enabled
-    tdf9.Pull = GPIO_PULLDOWN;        // the push-up-down should work as pulldown
-    tdf9.Speed = GPIO_SPEED_HIGH;     // we need a high-speed output
-
-    HAL_GPIO_Init(GPIOF, &tdf9);      // initialize the pin on GPIOA port with HAL
-
-
-    GPIO_InitTypeDef tdf8;            // create a config structure
-    tdf8.Pin = GPIO_PIN_8;            // this is about PIN 8
-    tdf8.Mode = GPIO_MODE_OUTPUT_PP;  // Configure as output with push-up-down enabled
-    tdf8.Pull = GPIO_PULLDOWN;        // the push-up-down should work as pulldown
-    tdf8.Speed = GPIO_SPEED_HIGH;     // we need a high-speed output
-
-    HAL_GPIO_Init(GPIOF, &tdf8);      // initialize the pin on GPIOA port with HAL
-
-    GPIO_InitTypeDef tdf7;            // create a config structure
-    tdf7.Pin = GPIO_PIN_7;            // this is about PIN 5
-    tdf7.Mode = GPIO_MODE_OUTPUT_PP;  // Configure as output with push-up-down enabled
-    tdf7.Pull = GPIO_PULLDOWN;        // the push-up-down should work as pulldown
-    tdf7.Speed = GPIO_SPEED_HIGH;     // we need a high-speed output
-
-    HAL_GPIO_Init(GPIOF, &tdf7);      // initialize the pin on GPIOA port with HAL
-
-    GPIO_InitTypeDef tdf6;            // create a config structure
-    tdf6.Pin = GPIO_PIN_6;            // this is about PIN 6
-    tdf6.Mode = GPIO_MODE_OUTPUT_PP;  // Configure as output with push-up-down enabled
-    tdf6.Pull = GPIO_PULLDOWN;        // the push-up-down should work as pulldown
-    tdf6.Speed = GPIO_SPEED_HIGH;     // we need a high-speed output
-
-    HAL_GPIO_Init(GPIOF, &tdf6);      // initialize the pin on GPIOA port with HAL
-
-
-
 
     GPIO_InitTypeDef button;            // create a config structure
-    button.Pin = GPIO_PIN_7;            // this is about PIN 7 and PIN 6
+    button.Pin = GPIO_PIN_7;            // this is about PIN 7
     button.Mode = GPIO_MODE_INPUT;     // Configure as output with push-up-down enabled
     button.Pull = GPIO_PULLUP;        // the push-up-down should work as pulldown
     button.Speed = GPIO_SPEED_HIGH;     // we need a high-speed output
 
     HAL_GPIO_Init(GPIOC, &button);      // initialize the pin on GPIOA port with HAL
 
+    while(1){
+    	if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_7) == 0){
+
+    		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);   // setting the pin to 1                                   // wait a second
+    		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
+
+    		HAL_GPIO_WritePin(GPIOF, GPIO_PIN_10, GPIO_PIN_SET);   // setting the pin to 1                                   // wait a second
+    		HAL_GPIO_WritePin(GPIOF, GPIO_PIN_10, GPIO_PIN_RESET);
+
+    		HAL_GPIO_WritePin(GPIOF, GPIO_PIN_9, GPIO_PIN_SET);
+    		HAL_GPIO_WritePin(GPIOF, GPIO_PIN_9, GPIO_PIN_RESET);
+
+    		HAL_GPIO_WritePin(GPIOF, GPIO_PIN_8, GPIO_PIN_SET);
+    		HAL_GPIO_WritePin(GPIOF, GPIO_PIN_8, GPIO_PIN_RESET);
+
+    		HAL_GPIO_WritePin(GPIOF, GPIO_PIN_7, GPIO_PIN_SET);
+    		HAL_GPIO_WritePin(GPIOF, GPIO_PIN_7, GPIO_PIN_RESET);
+
+    		HAL_GPIO_WritePin(GPIOF, GPIO_PIN_6, GPIO_PIN_SET);
+    		HAL_GPIO_WritePin(GPIOF, GPIO_PIN_6, GPIO_PIN_RESET);
 
 
+
+    	   }
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//DAY2
+/*
    while(1){
 
 
@@ -190,7 +196,7 @@ int main(void)
 	   }
    }
 
-
+*/
 
 /*
   while(1){

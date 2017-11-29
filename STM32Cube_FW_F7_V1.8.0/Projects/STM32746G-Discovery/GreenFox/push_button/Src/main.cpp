@@ -123,26 +123,48 @@ int main(void)
 
 
     GPIO_InitTypeDef tdf8;            // create a config structure
-    tdf8.Pin = GPIO_PIN_8;            // this is about PIN 10
+    tdf8.Pin = GPIO_PIN_8;            // this is about PIN 8
     tdf8.Mode = GPIO_MODE_OUTPUT_PP;  // Configure as output with push-up-down enabled
     tdf8.Pull = GPIO_PULLDOWN;        // the push-up-down should work as pulldown
     tdf8.Speed = GPIO_SPEED_HIGH;     // we need a high-speed output
 
     HAL_GPIO_Init(GPIOF, &tdf8);      // initialize the pin on GPIOA port with HAL
 
+    GPIO_InitTypeDef tdf7;            // create a config structure
+    tdf7.Pin = GPIO_PIN_7;            // this is about PIN 5
+    tdf7.Mode = GPIO_MODE_OUTPUT_PP;  // Configure as output with push-up-down enabled
+    tdf7.Pull = GPIO_PULLDOWN;        // the push-up-down should work as pulldown
+    tdf7.Speed = GPIO_SPEED_HIGH;     // we need a high-speed output
+
+    HAL_GPIO_Init(GPIOF, &tdf7);      // initialize the pin on GPIOA port with HAL
+
+    GPIO_InitTypeDef tdf6;            // create a config structure
+    tdf6.Pin = GPIO_PIN_6;            // this is about PIN 6
+    tdf6.Mode = GPIO_MODE_OUTPUT_PP;  // Configure as output with push-up-down enabled
+    tdf6.Pull = GPIO_PULLDOWN;        // the push-up-down should work as pulldown
+    tdf6.Speed = GPIO_SPEED_HIGH;     // we need a high-speed output
+
+    HAL_GPIO_Init(GPIOF, &tdf6);      // initialize the pin on GPIOA port with HAL
+
+
+
 
     GPIO_InitTypeDef button;            // create a config structure
-    button.Pin = GPIO_PIN_7;            // this is about PIN 0
-    button.Mode = GPIO_MODE_INPUT;  // Configure as output with push-up-down enabled
+    button.Pin = GPIO_PIN_7;            // this is about PIN 7 and PIN 6
+    button.Mode = GPIO_MODE_INPUT;     // Configure as output with push-up-down enabled
     button.Pull = GPIO_PULLUP;        // the push-up-down should work as pulldown
     button.Speed = GPIO_SPEED_HIGH;     // we need a high-speed output
 
     HAL_GPIO_Init(GPIOC, &button);      // initialize the pin on GPIOA port with HAL
 
+
+
    while(1){
 
-	   if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_7) == 0){
-		   GPIOA->ODR = GPIOA->ODR | 1;
+
+		   if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_7) == 0){
+
+			   GPIOA->ODR = GPIOA->ODR | 1;
 		       HAL_Delay(100);
 		       GPIOA->ODR = GPIOA->ODR & 0xFFFFFFFE;
 
@@ -157,6 +179,14 @@ int main(void)
 		       GPIOF->ODR |= (1 << 8) ;
 		       HAL_Delay(100);
 		       GPIOF->ODR &= ~(1 << 8);
+
+		       GPIOF->ODR |= (1 << 7) ;
+		       HAL_Delay(100);
+		       GPIOF->ODR &= ~(1 << 7);
+
+		       GPIOF->ODR |= (1 << 6) ;
+		       HAL_Delay(100);
+		       GPIOF->ODR &= ~(1 << 6);
 	   }
    }
 

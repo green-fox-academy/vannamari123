@@ -57,6 +57,7 @@ static void MPU_Config(void);
 static void CPU_CACHE_Enable(void);
 static void All_lights_On(void);
 static void All_lights_Off(void);
+static void Chase_Light(void);
 
 int counter = 0;
 
@@ -125,21 +126,21 @@ int main(void) {
 
 	bool prev_state = 0;
 
-	while (1) {
+	 while (1) {
+	 if (prev_state == 0 && HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_7) == 0) {
+	 if (counter == 3) {
+	 counter = 0;
+	 } else {
+	 counter++;
+	 }
+	 }
+	 prev_state = !HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_7);
 
-		if (prev_state == 0 && HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_7) == 0) {
-			if (counter == 2) {
-				counter = 0;
-			} else {
-				counter++;
-			}
-		}
-		prev_state = !HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_7);
+	 All_lights_On();
+	 All_lights_Off();
+	 Chase_Light();
+	 }
 
-		All_lights_On();
-		All_lights_Off();
-
-	}
 
 	/*   while(1){
 	 if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_7) == 0){
@@ -289,6 +290,36 @@ static void All_lights_Off(void) {
 		HAL_GPIO_WritePin(GPIOF, GPIO_PIN_8, GPIO_PIN_RESET);
 		HAL_GPIO_WritePin(GPIOF, GPIO_PIN_7, GPIO_PIN_RESET);
 		HAL_GPIO_WritePin(GPIOF, GPIO_PIN_6, GPIO_PIN_RESET);
+	}
+}
+
+static void Chase_Light(void) {
+
+	if (counter == 3) {
+
+		GPIOA->ODR = GPIOA->ODR | 1;
+		HAL_Delay(100);
+		GPIOA->ODR = GPIOA->ODR & 0xFFFFFFFE;
+
+		GPIOF->ODR |= (1 << 10);
+		HAL_Delay(100);
+		GPIOF->ODR &= ~(1 << 10);
+
+		GPIOF->ODR |= (1 << 9);
+		HAL_Delay(100);
+		GPIOF->ODR &= ~(1 << 9);
+
+		GPIOF->ODR |= (1 << 8);
+		HAL_Delay(100);
+		GPIOF->ODR &= ~(1 << 8);
+
+		GPIOF->ODR |= (1 << 7);
+		HAL_Delay(100);
+		GPIOF->ODR &= ~(1 << 7);
+
+		GPIOF->ODR |= (1 << 6);
+		HAL_Delay(100);
+		GPIOF->ODR &= ~(1 << 6);
 	}
 
 }

@@ -69,6 +69,8 @@ static void MPU_Config(void);
 static void CPU_CACHE_Enable(void);
 
 TIM_HandleTypeDef    TimHandle;           //the timer's config structure
+TIM_OC_InitTypeDef sConfig;
+GPIO_InitTypeDef ledConfig;               //set upthe pin, push-pull, no pullup..etc
 
 
 /* Private functions ---------------------------------------------------------*/
@@ -124,8 +126,8 @@ int main(void)
   printf("\n-----------------WELCOME-----------------\r\n");
   printf("**********in STATIC timer & pwm WS**********\r\n\n");
 
-  __HAL_RCC_TIM1_CLK_ENABLE();
-
+  __HAL_RCC_TIM1_CLK_ENABLE();               // enable TIM1 clock
+  __HAL_RCC_GPIOA_CLK_ENABLE();             //Enable GPIOA clock
 
     TimHandle.Instance               = TIM1;
     TimHandle.Init.Period            = 0xFFFF;
@@ -138,6 +140,37 @@ int main(void)
     HAL_TIM_Base_Start(&TimHandle);
 
 
+    sConfig.OCMode       = TIM_OCMODE_PWM1;
+    sConfig.OCPolarity   = TIM_OCPOLARITY_HIGH;
+    sConfig.OCFastMode   = TIM_OCFAST_DISABLE;
+    sConfig.OCNPolarity  = TIM_OCNPOLARITY_HIGH;
+    sConfig.OCNIdleState = TIM_OCNIDLESTATE_RESET;
+    sConfig.OCIdleState  = TIM_OCIDLESTATE_RESET;
+
+
+    HAL_TIM_PWM_Init(&sConfig);
+    HAL_TIM_PWM_ConfigChannel(sConfig TIM_CHANNEL_1);
+    HAL_TIM_PWM_Start();
+
+    ledConfig.Pin = GPIO_PIN_0;
+    ledConfig.Mode = GPIO_MODE_OUTPUT_PP;
+	ledConfig.Pull = GPIO_PULLDOWN;
+	ledConfig.Speed = GPIO_SPEED_HIGH;
+    ledConfig.Alternate = GPIO_AF1_TIM1;      // and the alternate function is to use TIM1 timer's first channel
+
+    HAL_GPIO_Init(GPIOA, &ledConfig);
+
+
+
+
+
+
+
+
+
+
+
+/* FIRST TASK OF THE DAY: TIMER
 	  while (1)
 	  {
 		//  uint32_t timer = __HAL_TIM_GET_COUNTER(&TimHandle);
@@ -149,8 +182,7 @@ int main(void)
 		//  HAL_Delay(1000);
 
 	  }
-
-
+*/
 
 
 }

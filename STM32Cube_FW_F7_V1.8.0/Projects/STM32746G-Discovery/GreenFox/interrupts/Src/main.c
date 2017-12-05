@@ -70,6 +70,16 @@ static void Error_Handler(void);
 static void MPU_Config(void);
 static void CPU_CACHE_Enable(void);
 
+void EXTI15_10_IRQHandler(){
+	HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_11);
+}
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_0);
+}
+
+
+
 /* Private functions ---------------------------------------------------------*/
 
 /**
@@ -101,8 +111,8 @@ int main(void) {
 	/* Configure the System clock to have a frequency of 216 MHz */
 	SystemClock_Config();
 
-	__HAL_RCC_GPIOA_CLK_ENABLE()
-	;
+	__HAL_RCC_GPIOA_CLK_ENABLE();
+	__HAL_RCC_GPIOI_CLK_ENABLE();         // enable the GPIOI clock
 
 	GPIO_InitTypeDef tda;            // create a config structure
 	tda.Pin = GPIO_PIN_0;            // this is about PIN 0
@@ -111,6 +121,22 @@ int main(void) {
 	tda.Speed = GPIO_SPEED_HIGH;     // we need a high-speed output
 
 	HAL_GPIO_Init(GPIOA, &tda);     // initialize the pin on GPIOA port with HAL
+
+
+	GPIO_InitTypeDef conf;                // create the configuration struct
+	conf.Pin = GPIO_PIN_11;               // the pin is the 11
+	conf.Pull = GPIO_NOPULL;             /* We know from the board's datasheet that a resistor is already installed externally for this button (so it's not floating), we don't want to use the internal pull feature */
+	conf.Speed = GPIO_SPEED_FAST;         // port speed to fast
+	conf.Mode = GPIO_MODE_IT_RISING;      /* Here is the trick: our mode is interrupt on rising edge */
+
+	HAL_GPIO_Init(GPIOI, &conf);          // call the HAL init
+
+	/* assign the lowest priority to our interrupt line */
+	HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0x0F, 0x00);
+
+	/* tell the interrupt handling unit to process our interrupts */
+	HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+
 
 	/* Add your application code here
 	 */
@@ -128,9 +154,7 @@ int main(void) {
 	printf("**********in STATIC interrupts WS**********\r\n\n");
 
 	while (1) {
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET); // setting the pin to 1
-		HAL_Delay(10000);                                      // wait a second
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET); // setting the pin to 0
+
 	}
 }
 

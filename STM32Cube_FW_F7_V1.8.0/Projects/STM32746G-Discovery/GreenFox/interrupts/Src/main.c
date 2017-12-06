@@ -72,13 +72,8 @@ static void Error_Handler(void);
 static void MPU_Config(void);
 static void CPU_CACHE_Enable(void);
 
-void EXTI15_10_IRQHandler() {
-	HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_11);
-}
 
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_0);
-}
+
 
 /* Private functions ---------------------------------------------------------*/
 
@@ -110,58 +105,63 @@ int main(void) {
 
 	/* Configure the System clock to have a frequency of 216 MHz */
 	SystemClock_Config();
-	__HAL_RCC_TIM1_CLK_ENABLE()
-	;               // enable TIM1 clock
-	__HAL_RCC_GPIOA_CLK_ENABLE()
-	;
-	__HAL_RCC_GPIOI_CLK_ENABLE()
-	;         // enable the GPIOI clock
 
-	GPIO_InitTypeDef tda;            // create a config structure
-	tda.Pin = GPIO_PIN_8;            // this is about PIN 0
-	tda.Mode = GPIO_MODE_AF_PP; // Configure as output with push-up-down enabled
-	tda.Pull = GPIO_NOPULL;        // the push-up-down should work as pulldown
-	tda.Speed = GPIO_SPEED_HIGH;     // we need a high-speed output
-	tda.Alternate = GPIO_AF1_TIM1;
+	__HAL_RCC_TIM1_CLK_ENABLE();               // enable TIM1 clock
+	__HAL_RCC_GPIOA_CLK_ENABLE();
+	__HAL_RCC_GPIOI_CLK_ENABLE();         // enable the GPIOI clock
 
-	HAL_GPIO_Init(GPIOA, &tda);     // initialize the pin on GPIOA port with HAL
+	GPIO_InitTypeDef LED;            // create a LED structure
+	LED.Pin = GPIO_PIN_8;            // this is about PIN 8
+	LED.Mode = GPIO_MODE_AF_PP; // Configure as output with push-up-down enabled
+	LED.Pull = GPIO_NOPULL;        // the push-up-down should work as pulldown
+	LED.Speed = GPIO_SPEED_HIGH;     // we need a high-speed output
+	LED.Alternate = GPIO_AF1_TIM1;
+	HAL_GPIO_Init(GPIOA, &LED);     // initialize the pin on GPIOA port with HAL
 
-	GPIO_InitTypeDef conf;                // create the configuration struct
-	conf.Pin = GPIO_PIN_11;               // the pin is the 11
-	conf.Pull = GPIO_NOPULL; /* We know from the board's datasheet that a resistor is already installed externally for this button (so it's not floating), we don't want to use the internal pull feature */
-	conf.Speed = GPIO_SPEED_FAST;         // port speed to fast
-	conf.Mode = GPIO_MODE_IT_RISING; /* Here is the trick: our mode is interrupt on rising edge */
+	GPIO_InitTypeDef button_blue;                // create the configuration struct
+	button_blue.Pin = GPIO_PIN_11;               // the pin is the 11
+	button_blue.Pull = GPIO_NOPULL; /* We know from the board's datasheet that a resistor is already installed externally for this button (so it's not floating), we don't want to use the internal pull feature */
+	button_blue.Speed = GPIO_SPEED_FAST;         // port speed to fast
+	button_blue.Mode = GPIO_MODE_IT_RISING; /* Here is the trick: our mode is interrupt on rising edge */
+	HAL_GPIO_Init(GPIOI, &button_blue);          // call the HAL init
 
-	HAL_GPIO_Init(GPIOI, &conf);          // call the HAL init
-
+	/*Configure timer
+	 */
 	TimHandle.Instance = TIM1;
-	TimHandle.Init.Period = 0xFFFF;
-	TimHandle.Init.Prescaler = 54000;
+	TimHandle.Init.Period = 1646;
+	TimHandle.Init.Prescaler = 0xFFFF;
 	TimHandle.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	TimHandle.Init.CounterMode = TIM_COUNTERMODE_UP;
 	TimHandle.Init.RepetitionCounter = 0;
+//	HAL_TIM_Base_Init(&TimHandle);            //Configure the timer
+//	HAL_TIM_Base_Start(&TimHandle);			// start the timer peripherial
 
-	HAL_TIM_Base_Init(&TimHandle);            //Configure the timer
-	HAL_TIM_Base_Start(&TimHandle);
+	HAL_TIM_PWM_Init(&TimHandle);  // initialize PVM on the created timer structure
 
+	sConfig.OCMode =  TIM_OCMODE_PWM1;
+	sConfig.Pulse = 823;
+	HAL_TIM_PWM_ConfigChannel(&TimHandle, &sConfig, TIM_CHANNEL_1);
+	HAL_TIM_PWM_Start_IT(&TimHandle, TIM_CHANNEL_1);
+
+	HAL_NVIC_SetPriority(TIM1_CC_IRQn , 0x0f, 0x00);
+	HAL_NVIC_EnableIRQ(TIM1_CC_IRQn);
+
+
+
+
+//  Blue button interrupt priority and enable
 	/* assign the lowest priority to our interrupt line */
-	HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0x0F, 0x00);
+//	HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0x0F, 0x00);
 
 	/* tell the interrupt handling unit to process our interrupts */
-	HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+//	HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
-	sConfig.OCMode = TIM_OCMODE_PWM1;
-	sConfig.OCPolarity = TIM_OCPOLARITY_HIGH;
-	sConfig.OCFastMode = TIM_OCFAST_DISABLE;
-	sConfig.OCNPolarity = TIM_OCNPOLARITY_HIGH;
-	sConfig.OCNIdleState = TIM_OCNIDLESTATE_RESET;
-	sConfig.OCIdleState = TIM_OCIDLESTATE_RESET;
 
-	HAL_TIM_PWM_Init(&sConfig);
-	HAL_TIM_PWM_ConfigChannel(sConfig TIM_CHANNEL_1);
-	HAL_TIM_PWM_Start();
 
-	/* Add your application code here
+
+
+
+	/* Configure UART
 	 */
 
 	uart_handle.Init.BaudRate = 9600;
@@ -181,6 +181,28 @@ int main(void) {
 
 	}
 }
+
+/* Interrupt handler for blue botton interrupt
+void EXTI15_10_IRQHandler(void){
+	HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_11);
+}
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
+	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_8);
+}
+
+*/
+
+void TIM1_CC_IRQHandler(void){
+	HAL_TIM_IRQHandler(&TimHandle);
+}
+
+
+void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim){
+	printf("Great\n");
+}
+
+
 
 /**
  * @brief  Retargets the C library printf function to the USART.
@@ -244,8 +266,8 @@ static void SystemClock_Config(void) {
 			| RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
 	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
 	RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
-	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV8;
+	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV4;
 	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_7) != HAL_OK) {
 		Error_Handler();
 	}

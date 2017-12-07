@@ -185,7 +185,7 @@ int main(void) {
 	 * PWM on FET
 	 */
 	FETtimer.OCMode = TIM_OCMODE_PWM1;
-	FETtimer.Pulse = 823;
+	FETtimer.Pulse = 824;
 	HAL_TIM_PWM_ConfigChannel(&TimHandle, &FETtimer, TIM_CHANNEL_1);
 	HAL_TIM_PWM_Start_IT(&TimHandle, TIM_CHANNEL_1);
 
@@ -205,11 +205,9 @@ int main(void) {
 
 	BSP_COM_Init(COM1, &uart_handle);
 
-	printf("\n-----------------WELCOME-----------------\r\n");
-	printf("**********in STATIC interrupts WS**********\r\n\n");
 
 	while (1) {
-		//uint32_t timer = __HAL_TIM_GET_COUNTER(&TimHandle);
+
 
 	}
 }

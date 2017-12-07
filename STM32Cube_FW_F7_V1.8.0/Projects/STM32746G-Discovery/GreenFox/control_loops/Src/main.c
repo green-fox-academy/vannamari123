@@ -55,7 +55,9 @@ GPIO_InitTypeDef FET;
 GPIO_InitTypeDef Sensor;
 TIM_OC_InitTypeDef FETtimer;
 TIM_HandleTypeDef TimHandle;
-
+TIM_HandleTypeDef TimHandleSensor;
+/* Timer Input Capture Configuration Structure declaration */
+TIM_IC_InitTypeDef     sICConfig;
 
 
 /* Private define ------------------------------------------------------------*/
@@ -171,7 +173,13 @@ int main(void) {
 	HAL_GPIO_Init(GPIOB, &Sensor);
 
 	/*
-	 * Timer configuration
+	 * Configures interrupt for Sensor
+	 */
+	HAL_NVIC_SetPriority(TIM3_IRQn,0xF, 0x00);
+	HAL_NVIC_EnableIRQ(TIM3_IRQn);
+
+	/*
+	 * Timer configuration for FET
 	 */
 	TimHandle.Instance = TIM1;
 	TimHandle.Init.Period = 1646;
@@ -191,6 +199,28 @@ int main(void) {
 
 	HAL_NVIC_SetPriority(TIM1_CC_IRQn, 0x0f, 0x00);
 	HAL_NVIC_EnableIRQ(TIM1_CC_IRQn);
+
+	/*
+	 * Timer configuration for Sensor
+	 */
+	TimHandleSensor.Instance = TIM3;
+	TimHandleSensor.Init.Period = 1000;
+	TimHandleSensor.Init.Prescaler = 0XFFFF;
+	TimHandleSensor.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+	TimHandleSensor.Init.CounterMode = TIM_COUNTERMODE_UP;
+	HAL_TIM_Base_Init(&TimHandleSensor);
+	HAL_TIM_Base_Start_IT(&TimHandleSensor);
+
+	/*
+	 * Configure the Input Capture channel
+	 */
+	sICConfig.ICPolarity = TIM_ICPOLARITY_RISING;
+	sICConfig.ICSelection = TIM_ICSELECTION_DIRECTTI;
+	sICConfig.ICPrescaler = TIM_ICPSC_DIV1;
+	sICConfig.ICFilter = 0xF;
+	HAL_TIM_IC_ConfigChannel(&TimHandleSensor, &sICConfig, TIM_CHANNEL_1);
+	HAL_TIM_IC_Start_IT(&TimHandleSensor, TIM_CHANNEL_1);
+
 
 
 	/* Configure UART
@@ -235,6 +265,17 @@ void EXTI0_IRQHandler(uint16_t GPIO_Pin){
 }
 
 */
+
+/*
+ * Interrupt handle for Sensor
+ */
+void TIM3_IRQHandler(){
+	HAL_TIM_IRQHandler(&TimHandleSensor);
+}
+
+void  HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim){
+	// logika
+}
 
 
 

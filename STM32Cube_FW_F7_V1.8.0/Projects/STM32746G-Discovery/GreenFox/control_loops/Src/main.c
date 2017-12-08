@@ -57,7 +57,7 @@ TIM_OC_InitTypeDef FETtimer;
 TIM_HandleTypeDef TimHandle;
 TIM_HandleTypeDef TimHandleSensor;
 /* Timer Input Capture Configuration Structure declaration */
-TIM_IC_InitTypeDef     sICConfig;
+TIM_IC_InitTypeDef sICConfig;
 
 
 /* Private define ------------------------------------------------------------*/
@@ -119,6 +119,7 @@ int main(void) {
 	SystemClock_Config();
 
 	__HAL_RCC_TIM1_CLK_ENABLE(); // enable TIM1 clock
+	__HAL_RCC_TIM3_CLK_ENABLE();
 	__HAL_RCC_GPIOA_CLK_ENABLE();
 	__HAL_RCC_GPIOF_CLK_ENABLE();
 	__HAL_RCC_GPIOB_CLK_ENABLE();         // enable the GPIOI clock
@@ -128,15 +129,15 @@ int main(void) {
 	 */
 
 	Button_left.Pin = GPIO_PIN_10;
-	Button_left.Mode =GPIO_MODE_IT_FALLING;
+	Button_left.Mode = GPIO_MODE_IT_FALLING;
 	Button_left.Pull = GPIO_PULLUP;
 	Button_left.Speed = GPIO_SPEED_FAST;
-	HAL_GPIO_Init(GPIOA, &Button_left);
+	HAL_GPIO_Init(GPIOF, &Button_left);
 
-	Button_left.Pin = GPIO_PIN_0;
-	Button_left.Mode = GPIO_MODE_IT_FALLING;
-	Button_left.Pull = GPIO_PULLDOWN;
-	Button_left.Speed = GPIO_SPEED_FAST;
+	Button_right.Pin = GPIO_PIN_0;
+	Button_right.Mode = GPIO_MODE_IT_FALLING;
+	Button_right.Pull = GPIO_PULLUP;
+	Button_right.Speed = GPIO_SPEED_FAST;
 	HAL_GPIO_Init(GPIOA, &Button_right);
 
 	/*
@@ -182,7 +183,7 @@ int main(void) {
 	 * Timer configuration for FET
 	 */
 	TimHandle.Instance = TIM1;
-	TimHandle.Init.Period = 1646;
+	TimHandle.Init.Period = 1000;
 	TimHandle.Init.Prescaler = 0xFFFF;
 	TimHandle.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	TimHandle.Init.CounterMode = TIM_COUNTERMODE_UP;
@@ -193,12 +194,12 @@ int main(void) {
 	 * PWM on FET
 	 */
 	FETtimer.OCMode = TIM_OCMODE_PWM1;
-	FETtimer.Pulse = 824;
+	FETtimer.Pulse = 500;
 	HAL_TIM_PWM_ConfigChannel(&TimHandle, &FETtimer, TIM_CHANNEL_1);
 	HAL_TIM_PWM_Start_IT(&TimHandle, TIM_CHANNEL_1);
 
-	HAL_NVIC_SetPriority(TIM1_CC_IRQn, 0x0f, 0x00);
-	HAL_NVIC_EnableIRQ(TIM1_CC_IRQn);
+//	HAL_NVIC_SetPriority(TIM1_CC_IRQn, 0x0f, 0x00);
+//	HAL_NVIC_EnableIRQ(TIM1_CC_IRQn);
 
 	/*
 	 * Timer configuration for Sensor
@@ -216,7 +217,7 @@ int main(void) {
 	 */
 	sICConfig.ICPolarity = TIM_ICPOLARITY_RISING;
 	sICConfig.ICSelection = TIM_ICSELECTION_DIRECTTI;
-	sICConfig.ICPrescaler = TIM_ICPSC_DIV1;
+	sICConfig.ICPrescaler = TIM_ICPSC_DIV2;
 	sICConfig.ICFilter = 0xF;
 	HAL_TIM_IC_ConfigChannel(&TimHandleSensor, &sICConfig, TIM_CHANNEL_1);
 	HAL_TIM_IC_Start_IT(&TimHandleSensor, TIM_CHANNEL_1);
@@ -235,6 +236,8 @@ int main(void) {
 
 	BSP_COM_Init(COM1, &uart_handle);
 
+	printf("Yep, it works!\r\n");
+
 
 	while (1) {
 
@@ -248,23 +251,32 @@ void EXTI15_10_IRQHandler(){
 	HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_10);
 }
 
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
-	//what happens when left button is pushed
-
-}
-
-/*
- * Interrupt hadle for right button
- */
-void EXTI0_IRQHandler(uint16_t GPIO_Pin){
+void EXTI0_IRQHandler(){
 	HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
 }
 
-/*void HAL_GPIO_EXTI_Callback(GPIO_PIN_0){
-	//what happens when right button is pushed
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+	//what happens when left button is pushed
+	if (GPIO_Pin == GPIO_PIN_10) {
+		if (TIM1->CCR1 <= 950){
+			TIM1->CCR1 += 50;
+			printf("UP\r\n");
+		}
+	//when right button is pushed
+	} else if (GPIO_Pin == GPIO_PIN_0) {
+		if (TIM1->CCR1 >= 50){
+			TIM1->CCR1 -= 50;
+			printf("DOWN\r\n");
+		}
+	}
 }
 
-*/
+/*
+ * Interrupt handle for right button
+ */
+
+
+
 
 /*
  * Interrupt handle for Sensor

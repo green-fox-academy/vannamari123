@@ -65,7 +65,7 @@ UART_HandleTypeDef uart_handle;
  uint8_t receive_buffer;
 
 /* Private function prototypes -----------------------------------------------*/
-void read_register(uint8_t register_pointer, uint8_t* receive_buffer);
+void read_register();
 
 
 #ifdef __GNUC__
@@ -161,38 +161,32 @@ int main(void) {
 	printf("\n------------------WELCOME------------------\r\n");
 	printf("********** to my I2C project **********\r\n\n");
 
-
 	while (1) {
 
-		    // first set the register pointer to the register wanted to be read
-		    HAL_I2C_Master_Transmit(&I2CHandle, 0b1001000 << 1, &register_pointer, 1, 100);
-
-		    // receive the  8bit data into the receive buffer
-		    HAL_I2C_Master_Receive(&I2CHandle, 0b1001000 << 1, &receive_buffer, 1, 100);
-
-		    HAL_Delay(1000);
+		read_register();
 
 		printf("Current temperature: %d C\r\n", receive_buffer);
+
+		if (receive_buffer >= 27){
+			printf("Too warm\r\n");
+		}
 
 	}
 
 }
 
+void read_register()
+ {
+ // first set the register pointer to the register wanted to be read
+ HAL_I2C_Master_Transmit(&I2CHandle, 0b1001000 << 1, &register_pointer, 1, 100);
 
-/*void read_register(uint8_t register_pointer, uint8_t* receive_buffer)
-{
+ // receive the  8bit data into the receive buffer
+ HAL_I2C_Master_Receive(&I2CHandle, 0b1001000 << 1, &receive_buffer, 1, 100);
 
-//	HAL_I2C_Master_Transmit(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uint8_t *pData, uint16_t Size, uint32_t Timeout)
+ HAL_Delay(1000);
 
-    // first set the register pointer to the register wanted to be read
-    HAL_I2C_Master_Transmit(&I2CHandle, 0b1001000 << 1, &register_pointer, 1, 100);
+ }
 
-    // receive the  8bit data into the receive buffer
-    HAL_I2C_Master_Receive(&I2CHandle, 0b1001000 << 1, &receive_buffer, 1, 100);
-
-    HAL_Delay(100);
-}
-*/
 
 
 

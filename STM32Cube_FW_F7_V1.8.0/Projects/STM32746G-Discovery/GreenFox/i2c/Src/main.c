@@ -47,17 +47,20 @@
  * @{
  */
 /* Private typedef -----------------------------------------------------------*/
-UART_HandleTypeDef uart_handle;
-GPIO_InitTypeDef gpio_init_structure;
+GPIO_InitTypeDef GPIOBConfig;
+I2C_HandleTypeDef I2CHandle;
 
 
 
 /* Private define ------------------------------------------------------------*/
+#define CLK_PIN		GPIO_PIN_8
+#define DATA_PIN	GPIO_PIN_9
+
+
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+uint8_t pData;
 
-char result;
-size_t len = 10;
 
 /* Private function prototypes -----------------------------------------------*/
 
@@ -110,32 +113,11 @@ int main(void) {
 	SystemClock_Config();
 
 
+	__HAL_RCC_GPIOB_CLK_ENABLE();
+	__HAL_RCC_I2C1_CLK_ENABLE();
+
 	/* UART configuration
 	 */
-	__HAL_RCC_GPIOA_CLK_ENABLE();
-	__HAL_RCC_GPIOB_CLK_ENABLE();
-	__HAL_RCC_USART1_CLK_ENABLE();
-
-
-	  /* Configure USART Tx as alternate function */
-	  gpio_init_structure.Pin = GPIO_PIN_9;
-	  gpio_init_structure.Mode = GPIO_MODE_AF_PP;
-	  gpio_init_structure.Speed = GPIO_SPEED_FAST;
-	  gpio_init_structure.Pull = GPIO_PULLUP;
-	  gpio_init_structure.Alternate = GPIO_AF7_USART1;
-	  HAL_GPIO_Init(GPIOA, &gpio_init_structure);
-
-	  /* Configure USART Rx as alternate function */
-	  gpio_init_structure.Pin = GPIO_PIN_7;
-	  gpio_init_structure.Mode = GPIO_MODE_AF_PP;
-	  gpio_init_structure.Alternate = GPIO_AF7_USART1;
-	  HAL_GPIO_Init(GPIOB, &gpio_init_structure);
-
-	  /* USART configuration */
-	  uart_handle.Instance = USART1;
-
-
-	  BSP_COM_Init(COM1, &uart_handle);
 
 	  uart_handle.Init.BaudRate = 9600;
 	  uart_handle.Init.HwFlowCtl = UART_HWCONTROL_NONE;
@@ -147,36 +129,52 @@ int main(void) {
 
 	  HAL_UART_Init(&uart_handle);
 
-	  /*
-	   * LED config
-	   */
-	  BSP_LED_Init(LED_GREEN);
-	  BSP_LED_On(LED_GREEN);
+	/*
+	 * GPIO B config for SCLK clock
+	 */
+	GPIOBConfig.Pin = CLK_PIN;
+	GPIOBConfig.Mode = GPIO_MODE_AF_OD;
+	GPIOBConfig.Alternate = GPIO_AF4_I2C1;
+	GPIOBConfig.Pull = GPIO_PULLUP;
+	GPIOBConfig.Speed = GPIO_SPEED_FAST;
+	HAL_GPIO_Init(GPIOB, GPIO_PIN_8);
+
+	/*
+	 * GPIO B config for SDA data
+	 */
+	GPIOBConfig.Pin = DATA_PIN;
+	GPIOBConfig.Mode = GPIO_MODE_AF_OD;
+	GPIOBConfig.Alternate = GPIO_AF4_I2C1;
+	GPIOBConfig.Pull = GPIO_PULLUP;
+	GPIOBConfig.Speed = GPIO_SPEED_FAST;
+	HAL_GPIO_Init(GPIOB, GPIO_PIN_9);
+
+
+	/*
+	 * I2C Handle config
+	 */
+	I2CHandle.Instance = I2C1;
+	I2CHandle.Init.Timing = 0x40912732;
+	I2CHandle.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+
+	HAL_I2C_Init(&I2CHandle);
+
+	HAL_I2C_Master_Transmit(&I2CHandle, 1001101b, *pData, 1, 100);
+	HAL_I2C_Master_Receive();
 
 
 
 	/* Output a message using printf function */
 	printf("\n------------------WELCOME------------------\r\n");
-	printf("********** to my UART project **********\r\n\n");
+	printf("********** to my I2C project **********\r\n\n");
 
 
 
-//	HAL_UART_Receive_IT(&uart_handle, (uint8_t *)result, len);
-
-	HAL_NVIC_SetPriority(USART1_IRQn, 0x0f, 0x00);
-	HAL_NVIC_EnableIRQ(USART1_IRQn);
 
 
 
 	while (1) {
-//		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
-		HAL_UART_Receive_IT(&uart_handle, &result, 10);
-		HAL_UART_Transmit(&uart_handle, (uint8_t *) &result, 10, 0xFFFF);
 
-		/*while(result != '\0'){
-			printf("%c\r\n", result);
-			result = 0;
-		}*/
 
 
 
@@ -184,14 +182,7 @@ int main(void) {
 
 }
 
-void USART1_IRQHandler() {
-	HAL_USART_IRQHandler(GPIO_PIN_7);
-}
 
-void HAL_USART_RxCpltCallback(USART_HandleTypeDef *husart) {
-
-
-}
 
 
 /**

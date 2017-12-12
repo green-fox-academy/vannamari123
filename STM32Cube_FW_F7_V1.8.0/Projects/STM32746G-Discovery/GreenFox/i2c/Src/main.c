@@ -49,6 +49,7 @@
 /* Private typedef -----------------------------------------------------------*/
 GPIO_InitTypeDef GPIOBConfig;
 I2C_HandleTypeDef I2CHandle;
+UART_HandleTypeDef uart_handle;
 
 
 
@@ -57,12 +58,15 @@ I2C_HandleTypeDef I2CHandle;
 #define DATA_PIN	GPIO_PIN_9
 
 
+
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-uint8_t pData;
-
+ uint8_t register_pointer = 0;
+ uint8_t receive_buffer;
 
 /* Private function prototypes -----------------------------------------------*/
+void read_register(uint8_t register_pointer, uint8_t* receive_buffer);
+
 
 #ifdef __GNUC__
 /* With GCC/RAISONANCE, small printf (option LD Linker->Libraries->Small printf
@@ -116,38 +120,28 @@ int main(void) {
 	__HAL_RCC_GPIOB_CLK_ENABLE();
 	__HAL_RCC_I2C1_CLK_ENABLE();
 
+
 	/* UART configuration
 	 */
+	uart_handle.Init.BaudRate = 9600;
+	uart_handle.Init.WordLength = UART_WORDLENGTH_8B;
+	uart_handle.Init.StopBits = UART_STOPBITS_1;
+	uart_handle.Init.Parity = UART_PARITY_NONE;
+	uart_handle.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+	uart_handle.Init.Mode = UART_MODE_TX_RX;
 
-	  uart_handle.Init.BaudRate = 9600;
-	  uart_handle.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-	  uart_handle.Init.Mode = UART_MODE_TX_RX;
-	  uart_handle.Init.OneBitSampling = UART_ONEBIT_SAMPLING_DISABLED;
-	  uart_handle.Init.Parity = UART_PARITY_NONE;
-	  uart_handle.Init.StopBits = UART_STOPBITS_1;
-	  uart_handle.Init.WordLength = UART_WORDLENGTH_8B;
+	BSP_COM_Init(COM1, &uart_handle);
 
-	  HAL_UART_Init(&uart_handle);
 
 	/*
-	 * GPIO B config for SCLK clock
+	 * GPIO B config for SCLK and  SDA data
 	 */
-	GPIOBConfig.Pin = CLK_PIN;
+	GPIOBConfig.Pin = DATA_PIN | CLK_PIN;
 	GPIOBConfig.Mode = GPIO_MODE_AF_OD;
 	GPIOBConfig.Alternate = GPIO_AF4_I2C1;
 	GPIOBConfig.Pull = GPIO_PULLUP;
 	GPIOBConfig.Speed = GPIO_SPEED_FAST;
-	HAL_GPIO_Init(GPIOB, GPIO_PIN_8);
-
-	/*
-	 * GPIO B config for SDA data
-	 */
-	GPIOBConfig.Pin = DATA_PIN;
-	GPIOBConfig.Mode = GPIO_MODE_AF_OD;
-	GPIOBConfig.Alternate = GPIO_AF4_I2C1;
-	GPIOBConfig.Pull = GPIO_PULLUP;
-	GPIOBConfig.Speed = GPIO_SPEED_FAST;
-	HAL_GPIO_Init(GPIOB, GPIO_PIN_9);
+	HAL_GPIO_Init(GPIOB, &GPIOBConfig);
 
 
 	/*
@@ -159,8 +153,7 @@ int main(void) {
 
 	HAL_I2C_Init(&I2CHandle);
 
-	HAL_I2C_Master_Transmit(&I2CHandle, 1001101b, *pData, 1, 100);
-	HAL_I2C_Master_Receive();
+
 
 
 
@@ -169,18 +162,40 @@ int main(void) {
 	printf("********** to my I2C project **********\r\n\n");
 
 
-
-
-
-
 	while (1) {
 
+		    // first set the register pointer to the register wanted to be read
+		    HAL_I2C_Master_Transmit(&I2CHandle, 0b1001000 << 1, &register_pointer, 1, 100);
 
+		    // receive the  8bit data into the receive buffer
+		    HAL_I2C_Master_Receive(&I2CHandle, 0b1001000 << 1, &receive_buffer, 1, 100);
 
+		    HAL_Delay(1000);
+
+		printf("Current temperature: %d C\r\n", receive_buffer);
 
 	}
 
 }
+
+
+/*void read_register(uint8_t register_pointer, uint8_t* receive_buffer)
+{
+
+//	HAL_I2C_Master_Transmit(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uint8_t *pData, uint16_t Size, uint32_t Timeout)
+
+    // first set the register pointer to the register wanted to be read
+    HAL_I2C_Master_Transmit(&I2CHandle, 0b1001000 << 1, &register_pointer, 1, 100);
+
+    // receive the  8bit data into the receive buffer
+    HAL_I2C_Master_Receive(&I2CHandle, 0b1001000 << 1, &receive_buffer, 1, 100);
+
+    HAL_Delay(100);
+}
+*/
+
+
+
 
 
 

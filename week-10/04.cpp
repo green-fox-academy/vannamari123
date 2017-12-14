@@ -1,3 +1,9 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+
 //TASK NO. 4
     //Create Animal class
     //Every animal has a hunger value, which is a whole number

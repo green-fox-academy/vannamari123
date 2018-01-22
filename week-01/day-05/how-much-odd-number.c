@@ -14,13 +14,13 @@ int main()
     int b = 22;
     int i = 0;
     int j = 0;
-    for (i = a+1; i < b; i++) {
+    for (i = a + 1; i < b; i++) {
         if ( i % 2 == 1){
             printf("%d ", i);
             j++;
         }
     }
     printf("this is %d odd number between %d and %d. \n", j, a, b);
-    
+
 return 0;
-    }
+}

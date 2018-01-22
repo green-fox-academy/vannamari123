@@ -14,72 +14,72 @@ int main()
     int amount_of_money = 168;
     int bancnotes = 0;
     int remainder = 0;
-    bancnotes=amount_of_money/20000;
-    
-    if(bancnotes!=0){
+    bancnotes = amount_of_money / 20000;
+
+    if ( bancnotes != 0) {
         printf("%d - 20000Ft\n", bancnotes);
     }
-    
-    remainder=amount_of_money%20000;
-    bancnotes=remainder/10000;
-    if (bancnotes!=0) {
+
+    remainder = amount_of_money % 20000;
+    bancnotes = remainder / 10000;
+    if (bancnotes ! =0) {
         printf("%d - 10000Ft\n", bancnotes);
     }
-    
-    remainder=remainder%10000;
-    bancnotes=remainder/2000;
-    if (bancnotes!=0) {
+
+    remainder = remainder % 10000;
+    bancnotes = remainder / 2000;
+    if (bancnotes != 0) {
         printf("%d - 2000Ft\n", bancnotes);
     }
-    
-    remainder=remainder%2000;
-    bancnotes=remainder/1000;
-    if (bancnotes!=0) {
+
+    remainder = remainder % 2000;
+    bancnotes = remainder / 1000;
+    if (bancnotes != 0) {
         printf("%d - 1000Ft\n", bancnotes);
     }
-    
-    remainder=remainder%1000;
-    bancnotes=remainder/500;
-    if (bancnotes!=0) {
+
+    remainder = remainder % 1000;
+    bancnotes = remainder / 500;
+    if (bancnotes != 0) {
         printf("%d - 500Ft\n", bancnotes);
     }
-    
-    remainder=remainder%500;
-    bancnotes=remainder/200;
-    if (bancnotes!=0) {
+
+    remainder = remainder % 500;
+    bancnotes = remainder / 200;
+    if (bancnotes != 0) {
         printf("%d - 200Ft\n", bancnotes);
     }
-    
-    remainder=remainder%200;
-    bancnotes=remainder/100;
-    if (bancnotes!=0) {
+
+    remainder = remainder % 200;
+    bancnotes = remainder / 100;
+    if (bancnotes != 0) {
         printf("%d - 100Ft\n", bancnotes);
     }
-    
-    remainder=remainder%100;
-    bancnotes=remainder/50;
-    if (bancnotes!=0) {
+
+    remainder = remainder % 100;
+    bancnotes = remainder / 50;
+    if (bancnotes != 0) {
         printf("%d - 50Ft\n", bancnotes);
     }
-    
-    
-    remainder=remainder%50;
-    bancnotes=remainder/20;
-    if (bancnotes!=0) {
+
+
+    remainder = remainder % 50;
+    bancnotes = remainder / 20;
+    if (bancnotes != 0) {
         printf("%d - 20Ft\n", bancnotes);
     }
-    
-    remainder=remainder%20;
-    bancnotes=remainder/10;
-    if (bancnotes!=0) {
+
+    remainder = remainder % 20;
+    bancnotes = remainder / 10;
+    if (bancnotes != 0) {
         printf("%d - 10Ft\n", bancnotes);
     }
-    
-    remainder=remainder%10;
-    bancnotes=remainder/5;
-    
-    remainder=remainder%5;
-    switch(remainder){
+
+    remainder = remainder % 10;
+    bancnotes = remainder / 5;
+
+    remainder = remainder % 5;
+    switch(remainder) {
         case 1:
             printf("Rounding: down 1 Ft \n");
             break;
@@ -95,14 +95,10 @@ int main()
             printf("Rounding: up 4 Ft \n");
             break;
     }
-    
-    if (bancnotes!=0) {
+
+    if (bancnotes != 0) {
         printf("%d - 5Ft\n", bancnotes);
     }
-    
     return 0;
-    
+
 }
-
-
-

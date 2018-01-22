@@ -10,10 +10,10 @@ int main()
     int a = 654;
     uint64_t b = 654987312;
     int c = b % a;
-        if(c=3){
-            printf("c=3");
-	} else {
-            printf("c not equal to  3");
-	}
-return 0;
+    if (c = 3) {
+        printf("c = 3");
+	  } else {
+        printf("c not equal to  3");
+	  }
+    return 0;
 }

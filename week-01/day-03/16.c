@@ -9,10 +9,10 @@ int main()
 {
     uint16_t v = 426;
     uint64_t z = v % 4;
-    if (z=0)
+    if (z = 0)
         printf("Yeah!");
-    else 
+    else
         printf("End of program");
-return 0;
-}
 
+    return 0;
+}

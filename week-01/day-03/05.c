@@ -5,10 +5,9 @@
 //05.c
 
 int main()
- {
- int e=8;
- int f;
- e=pow(e,3);
- printf("%d \n", e);
- return 0;
- }
+{
+    int e = 8;
+    e = pow(e, 3);
+    printf("%d \n", e);
+    return 0;
+}

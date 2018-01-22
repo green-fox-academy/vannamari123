@@ -6,11 +6,10 @@
 int main()
 {
     uint16_t number = 254;
-    if (number > 255){
+    if (number > 255) {
         printf ("longer than 8bits");
-    }else {
+    } else {
         printf("ok");
     }
-return 0;
+    return 0;
 }
-

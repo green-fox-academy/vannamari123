@@ -17,7 +17,7 @@ int main()
     printf("%d \n", z);
 
 // Be z equal to the bitwise or of x and y
-    z= x | y;
+    z = x | y;
 
 // Check the result with print
     printf("%d \n", z);

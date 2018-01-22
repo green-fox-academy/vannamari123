@@ -14,7 +14,7 @@ int main()
     } else {
  	      printf("The number is not divisible by 3.");
     }
-    if ( y== 0) {
+    if ( y == 0) {
  	      printf ("The number is divisible by 5.");
 	  } else {
  	    printf("The number is not divisable by 5.");

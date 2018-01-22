@@ -1,9 +1,11 @@
 //03.c
-int main()
- {
- int c=44;
- c=2*c;
- printf("%d \n", c);
- return 0;
- }
+#include <stdio.h>
+#include <stdlib.h>
 
+int main()
+{
+    int c = 44;
+    c = 2 * c;
+    printf("%d \n", c);
+    return 0;
+}

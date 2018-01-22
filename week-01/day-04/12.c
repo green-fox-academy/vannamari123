@@ -4,30 +4,30 @@
 
 int main()
 {
-    for (int i=0; i<7 ; i++) {
-        if(i==0){
+    for (int i = 0; i < 7 ; i++) {
+        if (i == 0) {
             printf("Monday \n");
-        }else if(i==1){
+        } else if (i == 1) {
             printf("Tuesday \n");
-        } else if(i==2){
+        } else if (i == 2) {
             printf("Wednesday \n");
-        } else if(i==3){
+        } else if (i == 3) {
             printf("Thursday \n");
-        } else if(i==4){
+        } else if (i == 4) {
             printf("Friday \n");
-        } else if (i==5){
+        } else if (i == 5) {
             printf("Saturday \n");
-        } else if (i==6){
+        } else if (i == 6) {
             printf("Sunday \n");
         }
     }
     return 0;
 }
 
-
+//Solution using switch-case statements
 /*int main()
 {
-    for (int i=0; i<7; i++){
+    for (int i = 0; i < 7; i++){
         switch (i) {
             case 0:
                 printf("Monday \n");
@@ -54,5 +54,6 @@ int main()
                 break;
         }
     }
+    return 0;
 }
 */

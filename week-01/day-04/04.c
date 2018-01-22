@@ -7,12 +7,11 @@
 int main()
 {
     uint8_t ae = 4;
-    uint8_t i=0;
+    uint8_t i = 0;
     do {
         i++;
         printf("yeeey \n");
-    } while(i<ae);
+    } while (i < ae);
+
 return 0;
 }
-
-

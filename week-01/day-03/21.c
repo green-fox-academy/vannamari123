@@ -11,9 +11,9 @@ int main()
     uint8_t is_bonus = 1;
     if (is_bonus == 0) {
         if (credits >= 50) {
-            ab=ab-2;
+            ab = ab - 2;
         } else {
-            ab=ab-1;
+            ab = ab - 1;
         }
      }
      printf("%d \n", ab);
